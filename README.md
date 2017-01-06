@@ -19,4 +19,4 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 
 feature authentication has done
 
-feature authentication has done and I will don't lose any hostorical information about it
+
