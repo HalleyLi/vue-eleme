@@ -30,7 +30,7 @@
                                     <span class="old" v-show="food.oldPrice">{{food.oldPrice}}</span>
                                 </div>
                                 <div class="cardcontrol-wrapper">
-                                    <cartcontrol :food="food"></cartcontrol>
+                                    <cartcontrol :food="food" @increment="incrementTotal"></cartcontrol>
                                 </div>
                             </div>
                         </li>
@@ -38,7 +38,7 @@
                 </li>
             </ul>
         </div>
-        <shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice">
+        <shopcart ref="shopcart" :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice">
         </shopcart>
     </div>
 </template>
@@ -130,13 +130,15 @@ export default {
                 height += item.clientHeight;
                 this.listHeight.push(height);
             }
+        },
+        incrementTotal(target) {
+            this.$refs.shopcart.drop(target);
         }
     },
     components: {
         shopcart,
         cartcontrol
     }
-
 };
 </script>
 <style lang="stylus" rel="stylessheet/stylus">

@@ -18,9 +18,7 @@ export default {
             type: Object
         }
     },
-    created() {
-        console.log(`食物：${this.food}`);
-    },
+    created() {},
     methods: {
         addCart(event) {
             if (!event._constructed) {
@@ -31,6 +29,8 @@ export default {
             } else {
                 this.food.count++;
             }
+            // 子组件通过$emit触发父组件的方法
+            this.$emit('increment', event.target);
         },
         decreaseCart(event) {
             if (!event._constructed) {
@@ -67,13 +67,13 @@ export default {
         &.move-transition {
             opacity: 1;
             // 用translate3D可以开启硬件加速，动画更流畅
-            transform: translate3D(0, 0, 0);
+            transform: translate3d(0, 0, 0);
         }
         // 动画开始和动画结束时，从x轴开始，24px位置滚过来
         &.move-enter,
         &.move-leave {
             opacity: 0;
-            transform: translate3D(24px, 0, 0);
+            transform: translate3d(24px, 0, 0);
             .inner {
                 transform: rotate(180deg);
             }
