@@ -18,8 +18,8 @@
                             <div class="icon"><img width="57" height="57" :src="food.icon"></div>
                             <div class="content">
                                 <h2 class="name">
-        							{{food.name}}
-        						</h2>
+                                    {{food.name}}
+                                </h2>
                                 <p class="desc">{{food.description}}</p>
                                 <div class="extra">
                                     <span class="count">月售{{food.sellCount}}份</span>
@@ -29,19 +29,23 @@
                                     <span class="now">￥{{food.price}}</span>
                                     <span class="old" v-show="food.oldPrice">{{food.oldPrice}}</span>
                                 </div>
+                                <div class="cardcontrol-wrapper">
+                                    <cartcontrol :food="food"></cartcontrol>
+                                </div>
                             </div>
                         </li>
                     </ul>
                 </li>
             </ul>
         </div>
-        <shopcart :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice">
+        <shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice">
         </shopcart>
     </div>
 </template>
 <script>
 import BScroll from 'better-scroll';
 import shopcart from 'components/shopcart/shopcart';
+import cartcontrol from 'components/cartcontrol/cartcontrol';
 const ERR_OK = 0;
 export default {
 
@@ -67,6 +71,17 @@ export default {
                 }
             }
             return 0;
+        },
+        selectFoods() {
+            let foods = [];
+            this.goods.forEach((good) => {
+                good.foods.forEach((food) => {
+                    if (food.count) {
+                        foods.push(food);
+                    }
+                });
+            });
+            return foods;
         }
 
     },
@@ -92,7 +107,6 @@ export default {
             }
             let foodList = this.$refs.foodsWrapper.getElementsByClassName('food-list-hook');
             let el = foodList[index];
-            console.log(foodList);
             this.foodScroll.scrollToElement(el, 300);
         },
         _initScroll() {
@@ -119,7 +133,8 @@ export default {
         }
     },
     components: {
-        shopcart
+        shopcart,
+        cartcontrol
     }
 
 };
@@ -246,6 +261,11 @@ export default {
                         text-decoration: line-through;
                         font-size: 10px;
                     }
+                }
+                .cardcontrol-wrapper {
+                    position: absolute;
+                    right: 0;
+                    bottom: 12px;
                 }
             }
         }

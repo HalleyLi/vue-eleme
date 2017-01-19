@@ -4,7 +4,7 @@
             <div class="content-left">
                 <div class="logo-wrapper">
                     <div class="logo" :class="{'highLight':totalCount>0}">
-                        <i class="icon_shopping_cart" :class="{'highLight':totalCount>0}"></i>
+                        <i class="icon-shopping_cart" :class="{'highLight':totalCount>0}"></i>
                     </div>
                     <div class="num">
                         {{totalCount}}
@@ -31,10 +31,7 @@ export default {
         selectFoods: {
             type: Array,
             default() {
-                return [{
-                    price: 10,
-                    count: 2
-                }];
+                return [];
             }
         },
         deliveryPrice: {
@@ -48,6 +45,7 @@ export default {
     },
     computed: {
         totalPrice() {
+            console.log(`选择的食物,${this.selectFoods}`);
             let total = 0;
             this.selectFoods.forEach((food) => {
                 total += food.price * food.count;
@@ -124,7 +122,7 @@ export default {
                     &.highLight {
                         background: rgb(0, 160, 220);
                     }
-                    .icon_shopping_cart {
+                    .icon-shopping_cart {
                         line-height: 44px;
                         font-size: 24px;
                         color: #80858a;
