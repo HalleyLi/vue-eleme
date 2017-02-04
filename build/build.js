@@ -1,10 +1,12 @@
 // https://github.com/shelljs/shelljs
 require('./check-versions')()
+// 引用这个shelljs库，可以在nodejs中执行shell的一些常用命令
 require('shelljs/global')
 env.NODE_ENV = 'production'
 
 var path = require('path')
 var config = require('../config')
+// ora是给长时间异步任务的一个提示
 var ora = require('ora')
 var webpack = require('webpack')
 var webpackConfig = require('./webpack.prod.conf')

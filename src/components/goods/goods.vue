@@ -14,7 +14,7 @@
                 <li v-for="item in goods" class="food-list food-list-hook">
                     <h1 class="title">{{item.name}}</h1>
                     <ul>
-                        <li v-for="food in item.foods" class="food-item border-1px">
+                        <li @click.stop.prevent="selectFood($event,food)" v-for="food in item.foods" class="food-item border-1px">
                             <div class="icon"><img width="57" height="57" :src="food.icon"></div>
                             <div class="content">
                                 <h2 class="name">
@@ -40,12 +40,14 @@
         </div>
         <shopcart ref="shopcart" :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice">
         </shopcart>
+        <food ref="food" :food="selectedFood"></food>
     </div>
 </template>
 <script>
 import BScroll from 'better-scroll';
 import shopcart from 'components/shopcart/shopcart';
 import cartcontrol from 'components/cartcontrol/cartcontrol';
+import food from 'components/food/food';
 const ERR_OK = 0;
 export default {
 
@@ -56,9 +58,11 @@ export default {
     },
     data() {
         return {
+            selectedFood: {},
             goods: [],
             listHeight: [],
             scrollY: 0
+
         };
     },
     computed: {
@@ -109,6 +113,7 @@ export default {
             let el = foodList[index];
             this.foodScroll.scrollToElement(el, 300);
         },
+        // 该组件内方法，前面加下划线
         _initScroll() {
             this.menuScroll = new BScroll(this.$refs.menuWrapper, {
                 click: true
@@ -133,11 +138,20 @@ export default {
         },
         incrementTotal(target) {
             this.$refs.shopcart.drop(target);
+        },
+        selectFood(event, food) {
+            if (!event._constructed) {
+                // 去掉自带click事件的点击
+                return;
+            }
+            this.selectedFood = food;
+            this.$refs.food.show(food);
         }
     },
     components: {
         shopcart,
-        cartcontrol
+        cartcontrol,
+        food
     }
 };
 </script>
